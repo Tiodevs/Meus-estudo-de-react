@@ -2,47 +2,29 @@ import { useState } from "react";
 
 function App() {
 
-  const [nome, setNome] = useState("")
-  const [email, setEmail] = useState("")
-  const [idade, setIdade] = useState("")
-
-  const [user, setUser] = useState({})
+  const [input, setInput] = useState("")
+  const [tarefas, setTarefas] = useState([
+    'Pagar a conta de luz',
+    'Estudar React'
+  ])
+  
 
 
   function handleRegister(e){
     e.preventDefault()
-    alert('usar cadastrado')
-
-    setUser({
-      nome: nome,
-      email: email,
-      idade: idade
-    })
+    setTarefas([...tarefas, input])
   }
 
   return (
     <div>
       <h1>Cadastrando user</h1>
       <form onSubmit={handleRegister}>
-        <label>Nome:</label><br/>
+        <label>Nome da tarefa:</label><br/>
         <input 
-        placeholder="Digite o seu nome"
-        value={nome}
-        onChange={(e) => setNome(e.target.value)}
+        placeholder="Digite a tarefa"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
         /><br/>
-        
-        <label>Email:</label><br/>
-        <input 
-        placeholder="Digite o seu email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        /><br/>
-        
-        <label>Idade:</label><br/>
-        <input 
-        placeholder="Digite o seu idade"
-        value={idade}
-        onChange={(e) => setIdade(e.target.value)}/><br/>
 
         <button type="submit">Registrar</button>
 
@@ -52,9 +34,12 @@ function App() {
       <br/>
 
       <div>
-        <span>Bem vindo: {user.nome}</span><br/>
-        <span>Email: {user.email}</span><br/>
-        <span>Idade: {user.idade}</span><br/>
+    
+      <ul>
+        {tarefas.map(tarefa => (
+            <li key={tarefa}>{tarefa}</li>
+        ))}
+      </ul>
 
       </div>
     </div>
