@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import './style.css'
+import trash from './assets/trash.svg';
+import check from './assets/check.svg';
 
 function App() {
 
@@ -35,11 +37,20 @@ function App() {
 
   return (
     <div className="Container">
-      <h1>Cadastrando user</h1>
+      <div className="header">
+        <div className="header-topo">
+          <div className="header-text">
+            <h1>To do list</h1>
+            <p>vamos deixar de procastinar?</p>
+          </div>
+          <h1>Felipe.</h1>
+        </div>
+        <div className="linha"></div>
+      </div>
+
       <form onSubmit={handleRegister}>
-        <label>Nome da tarefa:</label><br/>
         <input 
-        placeholder="Digite a tarefa"
+        placeholder="Nova tarefa"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         /><br/>
@@ -48,17 +59,14 @@ function App() {
 
       </form>
 
-      <br/>
-      <br/>
-
-      <div>
+      <div className="itens">
     
       
         {tarefas.map(tarefa => (
-          <div className="Item">
-            <p key={tarefa}>{tarefa}</p>
+          <div className="item">
+            <li key={tarefa}>{tarefa}</li>
             <button onClick={() => handleExluir(tarefa)}>
-              Exluir
+              <img src={trash}/>
             </button>
           </div>
         ))}
