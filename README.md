@@ -323,4 +323,151 @@ Resultado final:
 
     export default App;
 
+## Manipulando lista atravez do useState e form
+
+1- Imporar o useState
+
+    import { useState } from "react";
+
+2- Criar 1 variavel para armazenar o valor do input useState
+
+    const [input, setInput] = useState("")
+
+3- Criar uma variavel para armazenar a lista de exibição usando useState
+
+    const [tarefas, setTarefas] = useState([
+    'Pagar a conta de luz',
+    'Estudar React'
+    ])
+
+4- Criar um fomulario basico
+
+    <h1>Cadastrando user</h1>
+    <form>
+    <label>Nome da tarefa:</label><br/>
+    <input 
+    placeholder="Digite a tarefa"
+    />
+    <br/>
+
+    <button type="submit">Registrar</button>
+
+5- adicionar no input as proriedades velue, onChange para armazenar o valor atual na variavel input e setar a nova atravez do setInput:
+
+    <input 
+    placeholder="Digite a tarefa"
+    value={input}
+    onChange={(e) => setInput(e.target.value)}
+    /><br/>
+
+6- Chamar uma função chamada handleRegister quando for apertado o botão do formulario:
+
+    <form onSubmit={handleRegister}>
+
+7- Criar a função para pegar todas as infomações que já existem na lista e adicionar o novo item:
+
+    function handleRegister(e){
+        e.preventDefault()
+        setTarefas([...tarefas, input])
+    }
+
+8- Criar uma ul e dentro da ul usar o .map para percorrer toda a lista (tarefas) e criar uma li com cada item dentro da lista:
+
+    <ul>
+        {tarefas.map(tarefa => (
+            <li key={tarefa}>{tarefa}</li>
+        ))}
+    </ul>
+
+Observação: todas as li tem que receber uma key unica, caso isso não seja feito é mostrado o erro no console.
+
+Codigo final:
+
+    import { useState } from "react";
+
+    function App() {
+
+    const [input, setInput] = useState("")
+    const [tarefas, setTarefas] = useState([
+        'Pagar a conta de luz',
+        'Estudar React'
+    ])
+    
+
+
+    function handleRegister(e){
+        e.preventDefault()
+        setTarefas([...tarefas, input])
+    }
+
+    return (
+        <div>
+        <h1>Cadastrando user</h1>
+        <form onSubmit={handleRegister}>
+            <label>Nome da tarefa:</label><br/>
+            <input 
+            placeholder="Digite a tarefa"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            /><br/>
+
+            <button type="submit">Registrar</button>
+
+        </form>
+
+        <br/>
+        <br/>
+
+        <div>
+        
+        <ul>
+            {tarefas.map(tarefa => (
+                <li key={tarefa}>{tarefa}</li>
+            ))}
+        </ul>
+
+        </div>
+        </div>
+    );
+    }
+
+    export default App;
+
+## Aprendendo a usar o useEffect
+
+### Resumo
+UseEffect é um hook muito utilizado, ele tem a função de executar um bloco de codigo em 3 situaçõs que são, quando alguem abre a pagina, quando alguem muda de pagina e quando uma variavel é alterada.
+
+### Projeto de aplicação
+Criar a litas de tarefas e atravez do useEffect armazenar no localstorege sempre que a lista for alterada e tamebem ao abrir o site buscar todos os dados que foram armazenados, então vamos reutilizar o codigo do ultimo projeto
+
+1- Importar o useEffect
+
+    import { useState, useEffect } from "react";
+
+2- Usar o useEffect para salvar no localStorage sempre que a variavel tarefas for alterado para isso colocamos a variavel tarefas entro de [] e dentro de {} colocamos o codigo para armazenar:
+
+    useEffect(() =>{
+    localStorage.setItem('@tarefa',JSON.stringify(tarefas))
+    }, [tarefas])
+
+Observação: não podemos armazenar no localStorage uma lista então usamos o JSON para converter para texto.
+
+3- Usar o useEffect para buscar todos os itens que estão na lista armazenada no localStorage sempre que o site abrir:
+
+    useEffect(() =>{
+        const tarefasStorage = localStorage.getItem('@tarefa')
+        if (tarefasStorage) {
+            setTarefas(JSON.parse(tarefasStorage))
+        }
+    }, [])
+
+Observação: Antes de colocar as infomações na lista precisamos tranformar o que veio do local em uma lista novamente.
+
+Resolver friar uma outra função para exluir intens da lista:
+
+1- 
+
+
+    
 

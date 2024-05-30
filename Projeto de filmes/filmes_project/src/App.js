@@ -1,22 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import './style.css'
 
 function App() {
 
   const [input, setInput] = useState("")
-  const [tarefas, setTarefas] = useState([
-    'Pagar a conta de luz',
-    'Estudar React'
-  ])
-  
+  const [tarefas, setTarefas] = useState([])
 
+  useEffect(() =>{
+    const tarefasStorage = localStorage.getItem('@tarefa')
+    if (tarefasStorage) {
+      setTarefas(JSON.parse(tarefasStorage))
+    }
+  },[])
+
+  useEffect(()=>{
+    localStorage.setItem('@tarefa',JSON.stringify(tarefas))
+  }, [tarefas]);
+
+  function handleExluir(key){
+    console.log(key)
+    let index = tarefas.indexOf(key);
+    if (index !== -1) {
+      let newArray = tarefas.slice(0, index).concat(tarefas.slice(index + 1));
+      setTarefas(newArray)
+    }
+  }
 
   function handleRegister(e){
     e.preventDefault()
+    console.log("fomulario enviado")
     setTarefas([...tarefas, input])
+    setInput('')
   }
 
   return (
-    <div>
+    <div className="Container">
       <h1>Cadastrando user</h1>
       <form onSubmit={handleRegister}>
         <label>Nome da tarefa:</label><br/>
@@ -35,11 +53,16 @@ function App() {
 
       <div>
     
-      <ul>
+      
         {tarefas.map(tarefa => (
-            <li key={tarefa}>{tarefa}</li>
+          <div className="Item">
+            <p key={tarefa}>{tarefa}</p>
+            <button onClick={() => handleExluir(tarefa)}>
+              Exluir
+            </button>
+          </div>
         ))}
-      </ul>
+      
 
       </div>
     </div>
